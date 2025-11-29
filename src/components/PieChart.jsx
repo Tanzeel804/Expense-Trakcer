@@ -1,10 +1,10 @@
 import { useEffect, useRef } from 'react'
 import { Chart, registerables } from 'chart.js'
-import { groupExpensesByCategory, getCategoryById, getChartColors } from '../utils/constants'
+import { groupExpensesByCategory, getCategoryById, getChartColors, formatCurrency } from '../utils/constants'
 
 Chart.register(...registerables)
 
-const PieChart = ({ expenses }) => {
+const PieChart = ({ expenses, currency = undefined }) => {
   const canvasRef = useRef(null)
   const chartRef = useRef(null)
 
@@ -62,12 +62,12 @@ const PieChart = ({ expenses }) => {
             titleFont: { size: 14 },
             bodyFont: { size: 13 },
             callbacks: {
-              label: function (context) {
+                label: function (context) {
                 const label = context.label || ''
                 const value = context.parsed || 0
                 const total = context.dataset.data.reduce((a, b) => a + b, 0)
                 const percentage = ((value / total) * 100).toFixed(1)
-                return `${label}: $${value.toFixed(2)} (${percentage}%)`
+                return `${label}: ${formatCurrency(value, currency)} (${percentage}%)`
               },
             },
           },

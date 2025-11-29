@@ -1,10 +1,10 @@
 import { useEffect, useRef } from 'react'
 import { Chart, registerables } from 'chart.js'
-import { formatDate } from '../utils/constants'
+import { formatDate, formatCurrency } from '../utils/constants'
 
 Chart.register(...registerables)
 
-const LineChart = ({ expenses, timeRange = 30 }) => {
+const LineChart = ({ expenses, timeRange = 30, currency = undefined }) => {
   const canvasRef = useRef(null)
   const chartRef = useRef(null)
 
@@ -90,10 +90,10 @@ const LineChart = ({ expenses, timeRange = 30 }) => {
             titleFont: { size: 14 },
             bodyFont: { size: 13 },
             callbacks: {
-              label: function (context) {
-                return `Spent: $${context.parsed.y.toFixed(2)}`
+                label: function (context) {
+                  return `Spent: ${formatCurrency(context.parsed.y, currency)}`
+                },
               },
-            },
           },
         },
         scales: {
@@ -105,7 +105,7 @@ const LineChart = ({ expenses, timeRange = 30 }) => {
             ticks: {
               color: textColor,
               callback: function (value) {
-                return '$' + value.toFixed(0)
+                return formatCurrency(value, currency)
               },
             },
           },
