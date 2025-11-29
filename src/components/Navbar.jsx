@@ -1,6 +1,7 @@
 import { useTheme } from '../hooks/useTheme'
+import { CURRENCIES } from '../utils/constants'
 
-const Navbar = () => {
+const Navbar = ({ currency, onCurrencyChange }) => {
   const { theme, toggleTheme } = useTheme()
 
   return (
@@ -17,19 +18,32 @@ const Navbar = () => {
             </h1>
           </div>
 
-          {/* Theme Toggle */}
-          <button
-            onClick={toggleTheme}
-            className="p-2.5 rounded-lg bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-yellow-400 transition-smooth hover:bg-gray-200 dark:hover:bg-gray-600 active:scale-95"
-            aria-label="Toggle dark mode"
-            title={`Switch to ${theme === 'light' ? 'dark' : 'light'} mode`}
-          >
-            {theme === 'light' ? (
+          {/* Currency and Theme Controls */}
+          <div className="flex items-center gap-3">
+            {/* Currency Selector */}
+            <select
+              value={currency}
+              onChange={(e) => onCurrencyChange(e.target.value)}
+              className="px-3 py-2 rounded-lg bg-gray-100 dark:bg-gray-700 text-gray-900 dark:text-white text-sm font-medium border border-gray-200 dark:border-gray-600 cursor-pointer hover:bg-gray-200 dark:hover:bg-gray-600 transition-smooth"
+              aria-label="Select currency"
+            >
+              {CURRENCIES.map(curr => (
+                <option key={curr.code} value={curr.code}>
+                  {curr.label} ({curr.symbol})
+                </option>
+              ))}
+            </select>
+
+            {/* Theme Toggle */}
+            <button
+              onClick={toggleTheme}
+              className="p-2.5 rounded-lg bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-yellow-400 transition-smooth hover:bg-gray-200 dark:hover:bg-gray-600 active:scale-95"
+              aria-label="Toggle dark mode"
+              title="Switch to dark/light mode"
+            >
               <i className="fas fa-moon text-lg"></i>
-            ) : (
-              <i className="fas fa-sun text-lg"></i>
-            )}
-          </button>
+            </button>
+          </div>
         </div>
       </div>
     </nav>

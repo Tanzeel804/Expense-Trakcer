@@ -2,12 +2,14 @@ import { useState, useEffect } from 'react'
 import Navbar from './components/Navbar'
 import Dashboard from './components/Dashboard'
 import { useTheme } from './hooks/useTheme'
+import { DEFAULT_CURRENCY } from './utils/constants'
 
 function App() {
-  const { theme } = useTheme()
+  const { theme, mounted } = useTheme()
   const [expenses, setExpenses] = useState([])
+  const [currency, setCurrency] = useState(DEFAULT_CURRENCY)
 
-  // Load expenses from localStorage on mount
+  // Load expenses and currency from localStorage on mount
   useEffect(() => {
     const savedExpenses = localStorage.getItem('expenses')
     if (savedExpenses) {
@@ -17,6 +19,9 @@ function App() {
         console.error('Failed to load expenses:', error)
       }
     }
+    
+    const savedCurrency = localStorage.getItem('currency') || DEFAULT_CURRENCY
+    setCurrency(savedCurrency)
   }, [])
 
   // Save expenses to localStorage whenever they change
@@ -41,17 +46,25 @@ function App() {
     setExpenses(expenses.filter(exp => exp.id !== id))
   }
 
+  const handleCurrencyChange = (newCurrency) => {
+    setCurrency(newCurrency)
+    localStorage.setItem('currency', newCurrency)
+  }
+
+  if (!mounted) {
+    return null // Don't render until theme is loaded
+  }
+
   return (
-    <div className={theme === 'dark' ? 'dark' : ''}>
-      <div className="min-h-screen bg-gray-50 dark:bg-gray-900 transition-smooth">
-        <Navbar />
-        <Dashboard
-          expenses={expenses}
-          onAddExpense={addExpense}
-          onUpdateExpense={updateExpense}
-          onDeleteExpense={deleteExpense}
-        />
-      </div>
+    <div className="min-h-screen bg-gray-50 dark:bg-gray-900 transition-smooth">
+      <Navbar currency={currency} onCurrencyChange={handleCurrencyChange} />
+      <Dashboard
+        expenses={expenses}
+        onAddExpense={addExpense}
+        onUpdateExpense={updateExpense}
+        onDeleteExpense={deleteExpense}
+        currency={currency}
+      />
     </div>
   )
 }

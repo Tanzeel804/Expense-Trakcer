@@ -1,6 +1,6 @@
 import { calculateTotalExpenses, getTopCategory, getCategoryById, formatCurrency } from '../utils/constants'
 
-const SummaryCards = ({ expenses }) => {
+const SummaryCards = ({ expenses, currency }) => {
   const totalExpenses = calculateTotalExpenses(expenses)
   const topCategory = getTopCategory(expenses)
   const topCategoryData = topCategory ? getCategoryById(topCategory) : null
@@ -9,7 +9,7 @@ const SummaryCards = ({ expenses }) => {
   const stats = [
     {
       title: 'Total Expenses',
-      value: formatCurrency(totalExpenses),
+      value: formatCurrency(totalExpenses, currency),
       icon: 'fas fa-coins',
       color: 'bg-primary-100 dark:bg-primary-900 text-primary-600 dark:text-primary-300',
     },
@@ -21,7 +21,7 @@ const SummaryCards = ({ expenses }) => {
     },
     {
       title: 'Average Expense',
-      value: formatCurrency(averageExpense),
+      value: formatCurrency(averageExpense, currency),
       icon: 'fas fa-chart-bar',
       color: 'bg-purple-100 dark:bg-purple-900 text-purple-600 dark:text-purple-300',
     },

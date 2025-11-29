@@ -6,7 +6,7 @@ import LineChart from './LineChart'
 import SummaryCards from './SummaryCards'
 import { CATEGORIES, exportToCSV } from '../utils/constants'
 
-const Dashboard = ({ expenses, onAddExpense, onUpdateExpense, onDeleteExpense }) => {
+const Dashboard = ({ expenses, onAddExpense, onUpdateExpense, onDeleteExpense, currency }) => {
   const [editingExpense, setEditingExpense] = useState(null)
   const [filterCategory, setFilterCategory] = useState(null)
   const [sortBy, setSortBy] = useState('date')
@@ -41,7 +41,7 @@ const Dashboard = ({ expenses, onAddExpense, onUpdateExpense, onDeleteExpense })
     <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
       {/* Summary Cards */}
       <div className="mb-8">
-        <SummaryCards expenses={expenses} />
+        <SummaryCards expenses={expenses} currency={currency} />
       </div>
 
       {/* Main Layout */}
@@ -151,6 +151,7 @@ const Dashboard = ({ expenses, onAddExpense, onUpdateExpense, onDeleteExpense })
           onDelete={handleDeleteExpense}
           filterCategory={filterCategory}
           sortBy={sortBy}
+                  currency={currency}
         />
       </div>
     </main>

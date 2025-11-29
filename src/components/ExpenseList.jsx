@@ -2,7 +2,7 @@ import { useState } from 'react'
 import { formatCurrency, formatDate, getCategoryById } from '../utils/constants'
 import Modal from './Modal'
 
-const ExpenseList = ({ expenses, onEdit, onDelete, filterCategory = null, sortBy = 'date' }) => {
+const ExpenseList = ({ expenses, onEdit, onDelete, filterCategory = null, sortBy = 'date', currency }) => {
   const [deleteConfirm, setDeleteConfirm] = useState(null)
 
   // Filter expenses
@@ -93,7 +93,7 @@ const ExpenseList = ({ expenses, onEdit, onDelete, filterCategory = null, sortBy
                     </td>
                     <td className="px-6 py-4">
                       <span className="font-semibold text-gray-900 dark:text-white">
-                        {formatCurrency(expense.amount)}
+                        {formatCurrency(expense.amount, currency)}
                       </span>
                     </td>
                     <td className="px-6 py-4">
@@ -145,7 +145,7 @@ const ExpenseList = ({ expenses, onEdit, onDelete, filterCategory = null, sortBy
                     </p>
                   </div>
                   <span className="font-bold text-primary-600 dark:text-primary-400 text-lg">
-                    {formatCurrency(expense.amount)}
+                    {formatCurrency(expense.amount, currency)}
                   </span>
                 </div>
                 <div className="flex justify-between items-center">
