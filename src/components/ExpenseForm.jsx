@@ -1,7 +1,7 @@
 import { useState } from 'react'
-import { CATEGORIES } from '../utils/constants'
+import { CATEGORIES, getCurrencySymbol } from '../utils/constants'
 
-const ExpenseForm = ({ onSubmit, initialData = null, onCancel = null }) => {
+const ExpenseForm = ({ onSubmit, initialData = null, onCancel = null, currency = 'PKR' }) => {
   const [formData, setFormData] = useState(
     initialData || {
       title: '',
@@ -101,7 +101,7 @@ const ExpenseForm = ({ onSubmit, initialData = null, onCancel = null }) => {
         {/* Amount */}
         <div>
           <label htmlFor="amount" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
-            Amount ($)
+            Amount ({getCurrencySymbol(currency)})
           </label>
           <input
             type="number"
